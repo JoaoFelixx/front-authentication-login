@@ -1,10 +1,9 @@
 import React from 'react';
+import { RegisterPage } from '../containers';
 
 function Register () {
   return (
-    <h1>
-      Register
-    </h1>
+    <RegisterPage />
   )
 }
 
