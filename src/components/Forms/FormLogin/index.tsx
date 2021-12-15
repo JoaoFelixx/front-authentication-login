@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { AxiosResponse } from 'axios';
 import {
   Input,
   FormGroup,
@@ -12,6 +14,8 @@ import {
   ClickHere,
   SaveInput,
 } from '../style';
+
+import { api } from '../../../services'
 
 type FormValues = {
   email: string;
@@ -62,7 +66,7 @@ export default function FormLogin() {
     return defaultError
   }
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
     try {
       const message = validData(data);
       
@@ -70,11 +74,18 @@ export default function FormLogin() {
 
       if (message.hasError) return 
 
+      api.post('/auth', data)
+        .then((response: AxiosResponse) => {
+          if (response.status === 204) return toast.warn("Email não registrado")
 
-      console.log('OK')
+          if (response.status != 201)  return toast.error("Ocorreu um erro, tente novamente mais tarde");
 
+          const { token } = response.data;
+        })
+
+      
     } catch (err) {
-      console.debug('Register', err)
+      return toast.error('Email e/ou senha incorretos')
     }
   };
 
