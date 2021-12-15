@@ -8,7 +8,7 @@ export const Card = styled.div`
   background: #C0D1B8;
   margin-left: auto;
   margin-right: auto;
-  padding: 6px;
+  padding: 12px;
   border: 5px solid;
   border-image: linear-gradient(270deg, #12FA8C, #019AFA 100%) 1;
 
@@ -18,30 +18,8 @@ export const Card = styled.div`
   }
 `;
 
-export const CardContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 6px;
-`;
-
-export const Label = styled.label`
-  color: #ffffff;
-  font-size: 18px;
-`;
-
-export const UserIcon = styled.img`
-  width: 120px;
-  border-radius: 100%;
-  float: right;
-`;
-
 export const Title = styled.h1`
   text-align: center;
-`;
-
-export const Input = styled.input`
-  height: 30px;
-  width: 99%;
 `;
 
 export const ClickHere = styled.p`

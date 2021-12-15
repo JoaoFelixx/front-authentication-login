@@ -1,16 +1,15 @@
-import React,{ useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Link } from 'react-router-dom';
-import { 
+import {
   Input,
-  FormGroup, 
+  FormGroup,
   FormHelperText,
 } from '@mui/material';
 import {
   Card,
   Title,
   ClickHere,
-  CardContent,
   SaveInput,
 } from '../style';
 
@@ -20,71 +19,100 @@ type FormValues = {
 };
 
 interface ErrorInterface {
-  errors: string;
   hasError: boolean;
+  error: FormValues;
+  background: object;
 }
 
 export default function FormRegister() {
-  const defaultError = {
-    error: '',
-    background: {
-      color: 'rgb(255,000,000)'
+
+  const defaultError = useMemo<ErrorInterface>(() => {
+    return {
+      hasError: false,
+      error: {
+        email: '',
+        password: ''
+      },
+      background: {
+        color: 'rgb(255,000,000)'
+      }
     }
-  }
+  }, [])
+
   const [errors, setErrors] = useState(defaultError)
-
   const { register, handleSubmit } = useForm<FormValues>();
-  const onSubmit: SubmitHandler<FormValues> = (data) => { 
-    try {
-      const { email, password } = data;
 
-      const {  } = validData(data)
+
+  const validData = (data: FormValues): ErrorInterface => {
+
+    const regexEmail = new RegExp(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/)
+
+    if (!regexEmail.test(data.email)) return {
+      ...defaultError,
+      hasError: true,
+      error: { email: 'Email inválido', password: '' }
+    }
+
+    if (data.password.length < 4) return {
+      ...defaultError,
+      hasError: true,
+      error: { email: '', password: 'Senha deve conter no minimo 4 digitos' }
+    }
+
+    return defaultError
+  }
+
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    try {
+      const message = validData(data);
+      
+      setErrors(message)
+
+      if (message.hasError) return 
+
+
+      console.log('OK')
 
     } catch (err) {
       console.debug('Register', err)
     }
   };
 
-  const validData = (data: FormValues): ErrorInterface => {
-    console.log(data)
-
-    return false
-  }
-
   useEffect(() => {
+    if (errors.hasError === false)
+      return setErrors(defaultError);
 
-  },[])
+    return
+  }, [errors, defaultError])
 
   return (
     <Card>
-      <CardContent>
-        <Title>Cadastrar </Title>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <FormGroup >
-            <Input 
-              id="my-email" 
-              {...register("email")} 
-              aria-describedby="my-helper-text" 
-              type="email" 
-              placeholder="Informe seu e-mail" />
-            <FormHelperText id="email" style={errors?.background}>{errors?.error}</FormHelperText> <br />
-            
-            <Input 
-              id="my-password"
-              {...register("password")}            
-              aria-describedby="my-helper-text" 
-              type="password" 
-              placeholder="Digite sua senha" />
-            <FormHelperText id="password" style={errors?.background}>{errors?.error}</FormHelperText> <br />
+      <Title>Cadastrar </Title>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <FormGroup >
+          <Input
+            id="my-email"
+            {...register("email")}
+            aria-describedby="my-helper-text"
+            type="email"
+            placeholder="Informe seu e-mail" />
+          <FormHelperText id="email" style={errors?.background}>{errors?.error?.email}</FormHelperText> <br />
 
-            <SaveInput value="Cadastrar" type="submit" /><br />
-            
-            <div>
-              <ClickHere>Já possui conta ? <Link to='/login'>Clique aqui</Link></ClickHere>
-            </div>
-          </FormGroup>
-        </form>
-      </CardContent>  
+          <Input
+            id="my-password"
+            {...register("password")}
+            aria-describedby="my-helper-text"
+            type="password"
+            placeholder="Digite sua senha" />
+          <FormHelperText id="password" style={errors?.background}>{errors?.error?.password}</FormHelperText> <br />
+
+          <SaveInput value="Cadastrar" type="submit" /><br />
+
+          <div>
+            <ClickHere>Já possui conta ? <Link to='/login'>Clique aqui</Link></ClickHere>
+          </div>
+        </FormGroup>
+      </form>
     </Card>
   )
 }
