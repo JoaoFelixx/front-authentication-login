@@ -67,26 +67,24 @@ export default function FormLogin() {
   }
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    try {
-      const message = validData(data);
-      
-      setErrors(message)
+    const message = validData(data);
 
-      if (message.hasError) return 
+    setErrors(message)
 
-      api.post('/auth', data)
-        .then((response: AxiosResponse) => {
-          if (response.status === 204) return toast.warn("Email não registrado")
+    if (message.hasError) return
 
-          if (response.status != 201)  return toast.error("Ocorreu um erro, tente novamente mais tarde");
+    api.post('/auth', data)
+      .then((response: AxiosResponse) => {
+        if (response.status === 204) return toast.warn("Email não registrado")
 
-          const { token } = response.data;
-        })
+        if (response.status !== 201) return toast.error("Ocorreu um erro, tente novamente mais tarde");
 
-      
-    } catch (err) {
-      return toast.error('Email e/ou senha incorretos')
-    }
+        const { token } = response.data;
+
+        localStorage.setItem('TOKEN', token);
+
+      })
+      .catch((err) => toast.error('Email e/ou senha incorretos'))
   };
 
   useEffect(() => {
