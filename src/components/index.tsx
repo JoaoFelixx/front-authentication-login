@@ -1,3 +1,10 @@
-import Forms from './Forms';
+import { FormLogin, FormRegister } from './Forms';
+import { CardForm } from './Card'
+import { Title } from './Title'
 
-export { Forms }
+export {  
+  Title,
+  CardForm,
+  FormLogin,
+  FormRegister,
+}

@@ -18,8 +18,8 @@ function Router() {
   const [authenticated, setAuthenticated] = useState(false)
 
   const PrivateRoute: FC = ({ children }) => {
-    //if (!authenticated) return ( <h1>401 not authorized</h1> )
-    console.log(children)
+    if (!authenticated) return ( <h1>401 not authorized</h1> )
+
     if (children === "/") 
       return (
         <Home />

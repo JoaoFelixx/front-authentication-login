@@ -9,8 +9,6 @@ import {
   FormHelperText,
 } from '@mui/material';
 import {
-  Card,
-  Title,
   ClickHere,
   SaveInput,
 } from '../style';
@@ -88,40 +86,35 @@ export default function FormLogin() {
   };
 
   useEffect(() => {
-    if (errors.hasError === false)
-      return setErrors(defaultError);
+    if (errors.hasError === false) return setErrors(defaultError);
 
-    return
   }, [errors, defaultError])
 
   return (
-    <Card>
-      <Title>Entrar </Title>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <FormGroup >
-          <Input
-            id="my-email"
-            {...register("email")}
-            aria-describedby="my-helper-text"
-            type="email"
-            placeholder="Informe seu e-mail" />
-          <FormHelperText id="email" style={errors?.background}>{errors?.error?.email}</FormHelperText> <br />
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <FormGroup >
+        <Input
+          id="my-email"
+          {...register("email")}
+          aria-describedby="my-helper-text"
+          type="email"
+          placeholder="Informe seu e-mail" />
+        <FormHelperText id="email" style={errors?.background}>{errors?.error?.email}</FormHelperText> <br />
 
-          <Input
-            id="my-password"
-            {...register("password")}
-            aria-describedby="my-helper-text"
-            type="password"
-            placeholder="Digite sua senha" />
-          <FormHelperText id="password" style={errors?.background}>{errors?.error?.password}</FormHelperText> <br />
+        <Input
+          id="my-password"
+          {...register("password")}
+          aria-describedby="my-helper-text"
+          type="password"
+          placeholder="Digite sua senha" />
+        <FormHelperText id="password" style={errors?.background}>{errors?.error?.password}</FormHelperText> <br />
 
-          <SaveInput value="Entrar" type="submit" /><br />
+        <SaveInput value="Entrar" type="submit" /><br />
 
-          <div>
-            <ClickHere>Já possui conta ? <Link to='/login'>Clique aqui</Link></ClickHere>
-          </div>
-        </FormGroup>
-      </form>
-    </Card>
+        <div>
+          <ClickHere>Não possui conta ? <Link to='/register'>Clique aqui</Link></ClickHere>
+        </div>
+      </FormGroup>
+    </form>
   )
 }

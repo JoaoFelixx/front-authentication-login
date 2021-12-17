@@ -1,13 +1,17 @@
 import React from 'react'
-import { Forms } from '../../components';
+import { 
+  FormRegister,
+  CardForm,
+  Title
+} from '../../components';
 
 function RegisterPage() {
-
-  const { FormRegister } = Forms;
-
   return (
     <div>
-      <FormRegister />
+      <CardForm>
+        <Title>Registre-se</Title>
+        <FormRegister />
+      </CardForm>
     </div>
   )
 }

@@ -1,11 +1,17 @@
 import React from 'react'
-import { Forms } from '../../components';
+import { 
+  Title,
+  FormLogin,
+  CardForm 
+} from '../../components';
 
 function LoginPage() {
-  const { FormLogin } = Forms;
 
   return (
-    <FormLogin />
+    <CardForm>
+      <Title> Login </Title>
+      <FormLogin />
+    </CardForm>
   )
 }
 
