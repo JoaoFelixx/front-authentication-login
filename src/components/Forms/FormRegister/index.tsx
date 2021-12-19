@@ -6,10 +6,13 @@ import {
   FormGroup,
   FormHelperText,
 } from '@mui/material';
+import { toast } from 'react-toastify';
 import {
   ClickHere,
   SaveInput,
 } from '../style';
+import { api } from '../../../services';
+
 
 type FormValues = {
   email: string;
@@ -76,7 +79,17 @@ export default function FormRegister() {
 
       if (message.hasError) return
       
-      console.log('OK')
+      api.post('/users', data)
+        .then((data) => {
+          toast.success('Usuário cadastrado com sucesso');
+          
+          setInterval(() => {
+            window.location.assign('../login');
+          }, 2000) 
+        })
+        .catch((err) => toast.error('Erro ao cadastrar, tente novamente mais tarde'))
+
+      
 
     } catch (err) {
       console.debug('Register', err)

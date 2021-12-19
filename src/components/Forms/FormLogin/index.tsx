@@ -80,6 +80,7 @@ export default function FormLogin() {
         const { token } = response.data;
 
         localStorage.setItem('TOKEN', token);
+        window.location.assign('../')
 
       })
       .catch((err) => toast.error('Email e/ou senha incorretos'))
